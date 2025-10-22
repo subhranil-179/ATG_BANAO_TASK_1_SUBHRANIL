@@ -17,20 +17,11 @@ class User(AbstractUser):
         default=Type.PATIENT,
         verbose_name="User Type"
     )
+    # Address related fileds
+    line_1 = models.CharField(max_length=256, null=True, verbose_name="Address Line 1")
+    city = models.CharField(max_length=72, null=True)
+    state = models.CharField(max_length=72, null=True)
+    pincode = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.username
-
-class Address(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='addresses'
-    )
-    line_1 = models.CharField(max_length=256)
-    city = models.CharField(max_length=72)
-    state = models.CharField(max_length=72)
-    pincode = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.user}'s Address"

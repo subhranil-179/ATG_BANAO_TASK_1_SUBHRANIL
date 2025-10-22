@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} Accounts - Login Page {% endblock title %}
+
+{% block body %}
+<div class="container my-8 border-2 rounded-md border-yellow-700 max-w-[90%] w-max h-full mx-auto p-4 md:p-8 bg-base-200">
+    <h1 class="mb-5 text-4xl text-center">Login Form</h1>
+    <form class="max-w-sm mx-auto flex flex-col items-center gap-3 [&>*]:w-[100%]" action="" method="POST">
+        {% csrf_token %}
+        {% for field in login_form %}
+        {% if field.widget_type == 'select' %}
+        <label for="{{field.id_for_label}}" class="input validator">
+            <span class="label">{{field.label}}</span>
+            <select class="ms-auto w-full" name="{{field.name}}" id="{{field.id_for_label}}" required>
+                {% for value, label in field.field.choices %}
+                <option value="{{ value }}" {% if field.value|stringformat:"s" == value|stringformat:"s" %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        {% else %}
+        <label for="{{field.id_for_label}}" class="input validator" {% if field.widget_type == 'password' %} x-data="{showPassword: false}" {% endif %}>
+            <span class="label">{{field.label}}</span>
+            <input name="{{field.name}}"
+                {% if field.widget_type == 'password' %}
+                    x-bind:type="showPassword ? 'text' : 'password'"
+                {% else %}
+                    type="{{field.widget_type}}"
+                {% endif %}
+                id="{{field.id_for_label}}" placeholder="{{field.placeholder}}" required>
+            {% if field.widget_type == 'password' %}
+            <button type="button" @click="showPassword = !showPassword" x-text="showPassword ? 'Hide' : 'Show'" class="cursor-pointer"></button>
+            {% endif %}
+        </label>
+        {% endif %}
+            {% if field.errors %}
+            <ul class="pl-4 list-disc">
+                {% for error in field.errors %}
+                <li class="text-error">{{error}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary my-2">Login</button>
+        <p class="text-center">Don't have an account? <a class="link link-secondary"
+            href="{% url 'accounts:register' %}">Register</a></p>
+    </form>
+</div>
+{% endblock body %}
+
