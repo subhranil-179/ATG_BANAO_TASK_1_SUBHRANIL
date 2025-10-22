@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} {{user}}'s Dashboard {% endblock title %}
+
+{% block body %}
+<div class="card bg-base-100 w-96 shadow-xl mx-auto mt-8">
+    <figure>
+        <img
+            class="max-w-[216px] aspect-square border border-dashed rounded-[50%]"
+            src="{{user.profile_picture.url}}"
+            alt="{{user.username}}'s profile picture" />
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title">{{user.username}} | {{user.user_type|title}}</h2>
+        <p><strong>Full Name:</strong> {{user.first_name}} {{user.last_name}}</p>
+        <p><strong>Address:</strong> {{user.line_1}}, {{user.pincode}}, {{user.city}}, {{user.state}}</p>
+        <div class="card-actions justify-end">
+            <a class="btn btn-error" href="{% url 'accounts:logout' %}">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock body %}

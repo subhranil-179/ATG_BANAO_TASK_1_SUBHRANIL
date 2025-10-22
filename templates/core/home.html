@@ -3,5 +3,13 @@
 {% block title %} ATG - Banao Task 1 {% endblock title %}
 
 {% block body %}
-<h1>Ready to sign up?</h1>
+<div class="flex items-center justify-center my-32">
+    <div>
+        {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'accounts:dashboard' %}">Visit Dashboard</a>
+        {% else %}
+        <a class="btn btn-primary" href="{% url 'accounts:register' %}">Register</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock body %}

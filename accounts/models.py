@@ -22,6 +22,7 @@ class User(AbstractUser):
     city = models.CharField(max_length=72, null=True)
     state = models.CharField(max_length=72, null=True)
     pincode = models.CharField(max_length=50, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=False)
 
     def __str__(self):
         return self.username

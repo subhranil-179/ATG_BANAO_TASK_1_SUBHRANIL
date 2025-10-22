@@ -13,13 +13,17 @@ class RegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = UserCreationForm.Meta.fields + (
+            'first_name',
+            'last_name',
             'email',
             'user_type',
             'line_1',
             'city',
             'state',
-            'pincode'
+            'pincode',
+            'profile_picture',
         )
         widgets = {
             'user_type': forms.Select(),
+            'profile_picture': forms.FileInput(),
         }

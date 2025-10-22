@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -10,7 +11,7 @@ def register_view(request):
         return redirect('accounts:dashboard')
     registration_form = RegistrationForm()
     if request.method == 'POST':
-        registration_form = RegistrationForm(request.POST)
+        registration_form = RegistrationForm(request.POST, request.FILES)
         if registration_form.is_valid():
             user = registration_form.save(commit=False)
             user.save()
@@ -44,7 +45,9 @@ def login_view(request):
     return render(request, "accounts/login.html", context)
 
 def logout_view(request):
-    return render(request, 'accounts/logout.html')
+    logout(request)
+    return redirect(reverse('core:home'))
 
+@login_required
 def dashboard_view(request):
     return render(request, 'accounts/dashboard.html')
